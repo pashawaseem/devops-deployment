@@ -20,10 +20,13 @@ pipeline {
 	   stage('Push docker to hub'){
 	       steps{
 	           script{
-	               sh 'docker login -u wasimpasha -p Masterspace!1234'
-	               sh 'docker push wasimpasha/devops-integration'
-	           }
-	       }
-	   }
-	}
+	               withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerlogin')]) {
+	                   //echo "My credentialsId is '${dockerhub-pwd}'!"
+	                   sh 'docker login -u wasimpasha -p Masterspace!1234'
+                    }
+	                sh 'docker push wasimpasha/devops-integration'
+	            }
+	        }
+	    }
+    }
 }
